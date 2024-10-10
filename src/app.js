@@ -2,29 +2,38 @@ const express = require("express");
 
 const app = express();
 
-// app.get("/", (req, res) => {
-//   res.send("Welcome to the landing page");
-// });
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
-// app.get("/test", (req, res) => {
-//   res.send("Testing page!");
-// });
+//HANDLE AUTH MIDDLEWARE
+app.use(
+  "/admin",
+  adminAuth
 
-// app.get("/hello", (req, res) => {
-//   res.send("Hello everyone!");
-// });
+  //   (req, res, next) => {
+  //   const token = "xyz";
+  //   const isAdminAuthorised = token === "xy";
+  //   if (!isAdminAuthorised) {
+  //     res.status(401).send("Unauthorized Request");
+  //   } else {
+  //     next();
+  //   }
+  // }
+);
 
-app.get("/user", (req, res) => {
-  res.send({ firstName: "Zaid", lastName: "Shaikh" });
+app.post("/user/login", (req, res) => {
+  res.send("User logged in successfully");
 });
 
-app.post("/user", (req, res) => {
-  console.log("Save data to the database");
-  res.send("Data successfully saved to the database");
+app.get("/user", userAuth, (req, res) => {
+  res.send("User Data Sent");
 });
 
-app.delete("/user", (req, res) => {
-  res.send("Deleted Successfully!");
+app.get("/admin/getAllData", (req, res) => {
+  res.send("All Data Sent");
+});
+
+app.get("/admin/deleteUser", (req, res) => {
+  res.send("Deleted a user");
 });
 
 app.listen(3000, () => {
