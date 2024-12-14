@@ -10,85 +10,89 @@ const { userAuth } = require("./middlewares/auth");
 
 app.use(express.json());
 app.use(cookieParser());
-//Sign Up API
-app.post("/signUp", async (req, res) => {
-  console.log(req.body);
 
-  //validateSignUpData(req);
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
+// const requestRouter = require("./routes/request");
+// //Sign Up API
+// app.post("/signUp", async (req, res) => {
+//   console.log(req.body);
 
-  try {
-    const {
-      password,
-      firstName,
-      lastName,
-      emailId,
-      age,
-      gender,
-      photoUrl,
-      about,
-      skills,
-    } = req.body;
-    const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      age,
-      gender,
-      photoUrl,
-      about,
-      skills,
-      password: passwordHash,
-    });
-    await user.save();
-    res.send("Data added successfully");
-  } catch (error) {
-    res.status(400).send("Error saving data: " + error.message);
-  }
-});
+//   //validateSignUpData(req);
 
-//Sign In API
-app.post("/signin", async (req, res) => {
-  try {
-    const { password, emailId } = req.body;
-    const user = await User.findOne({ emailId: emailId });
-    if (!user) {
-      //throw new Error("User with the email id doesnt exist")
-      throw new Error("Invalid Credentials");
-    }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+//   try {
+//     const {
+//       password,
+//       firstName,
+//       lastName,
+//       emailId,
+//       age,
+//       gender,
+//       photoUrl,
+//       about,
+//       skills,
+//     } = req.body;
+//     const passwordHash = await bcrypt.hash(password, 10);
+//     console.log(passwordHash);
+//     const user = new User({
+//       firstName,
+//       lastName,
+//       emailId,
+//       age,
+//       gender,
+//       photoUrl,
+//       about,
+//       skills,
+//       password: passwordHash,
+//     });
+//     await user.save();
+//     res.send("Data added successfully");
+//   } catch (error) {
+//     res.status(400).send("Error saving data: " + error.message);
+//   }
+// });
 
-    if (isPasswordValid) {
-      //Create a JWT Token
-      const token = await user.getJWT();
-      console.log(token);
+// //Sign In API
+// app.post("/signin", async (req, res) => {
+//   try {
+//     const { password, emailId } = req.body;
+//     const user = await User.findOne({ emailId: emailId });
+//     if (!user) {
+//       //throw new Error("User with the email id doesnt exist")
+//       throw new Error("Invalid Credentials");
+//     }
+//     const isPasswordValid = await user.validatePassword(password);
 
-      //Add the token to cookie and send the response back to the server
-      res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000),
-        httpOnly: true,
-      });
+//     if (isPasswordValid) {
+//       //Create a JWT Token
+//       const token = await user.getJWT();
+//       console.log(token);
 
-      res.send("Login Successful");
-    } else {
-      //throw new Error("Password not correct");
-      throw new Error("Invalid Credentials");
-    }
-  } catch (error) {
-    res.status(400).send("Error saving data: " + error.message);
-  }
-});
+//       //Add the token to cookie and send the response back to the server
+//       res.cookie("token", token, {
+//         expires: new Date(Date.now() + 8 * 3600000),
+//         httpOnly: true,
+//       });
 
-//getting a profile
-app.get("/profile", userAuth, async (req, res) => {
-  try {
-    const user = req.user;
-    //console.log(cookies);
-    console.log(`The user logged in is ${user.firstName} ${user.lastName}`);
-    res.send(user);
-  } catch (error) {}
-});
+//       res.send("Login Successful");
+//     } else {
+//       //throw new Error("Password not correct");
+//       throw new Error("Invalid Credentials");
+//     }
+//   } catch (error) {
+//     res.status(400).send("Error saving data: " + error.message);
+//   }
+// });
+
+// //getting a profile
+// app.get("/profile", userAuth, async (req, res) => {
+//   try {
+//     const user = req.user;
+//     //console.log(cookies);
+//     console.log(`The user logged in is ${user.firstName} ${user.lastName}`);
+//     res.send(user);
+//   } catch (error) {}
+// });
 
 // {
 // //Get user by email
@@ -192,6 +196,10 @@ app.get("/profile", userAuth, async (req, res) => {
 // });
 
 // }
+
+app.use("/", authRouter);
+app.use("/", profileRouter);
+// app.use("/", requestRouter);
 
 connectDB()
   .then(() => {
