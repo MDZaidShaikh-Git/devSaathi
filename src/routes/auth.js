@@ -65,7 +65,7 @@ authRouter.post("/signin", async (req, res) => {
         httpOnly: true,
       });
 
-      res.send("Login Successful");
+      res.send(user );
     } else {
       //throw new Error("Password not correct");
       throw new Error("Invalid Credentials");

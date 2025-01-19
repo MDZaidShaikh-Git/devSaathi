@@ -7,7 +7,12 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
+const cors = require("cors")
 
+app.use(cors({
+  origin:"http://localhost:5174",
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   console.log("Trying to connect");
   await mongoose.connect(
-    "mongodb+srv://learningthroughchatgpt:bheH7YUKuq3zc8Ww@zaidsnamastenode.fbtuk.mongodb.net/devSaathi"
+    "mongodb+srv://learningthroughchatgpt:faNLPVyKXX3Bi6ic@zaidsnamastenode.fbtuk.mongodb.net/devSaathi"
   );
 };
 
