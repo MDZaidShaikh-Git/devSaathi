@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   console.log("Trying to connect");
   await mongoose.connect(
-    //connection string
+    "mongodb+srv://learningthroughchatgpt:NMpRaQ9YWrQdywdW@zaidsnamastenode.fbtuk.mongodb.net/devSaathi"
   );
 };
 
@@ -16,3 +16,4 @@ module.exports = connectDB;
 //   .catch((err) => {
 //     console.log("Database cannot be connected!");
 //   });
+
