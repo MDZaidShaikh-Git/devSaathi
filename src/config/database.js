@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   console.log("Trying to connect");
   await mongoose.connect(
-    "mongodb+srv://learningthroughchatgpt:dbf9cRWtzLKl8mvR@zaidsnamastenode.fbtuk.mongodb.net/devSaathi"
+
+    //ADD CONNECTION STRING HERE
   );
 };
 
