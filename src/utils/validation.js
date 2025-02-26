@@ -22,7 +22,7 @@ const validateSignUpData = (req) => {
 };
 
 const validateEditProfileData = (req) => {
-  const editableDetails = ["photoUrl", "about", "skills"];
+  const editableDetails = ["photoUrl", "about", "skills","firstName", "lastName", "age","gender"];
   const isEditableDetail = Object.keys(req.body).every((field) =>
     editableDetails.includes(field)
   );
